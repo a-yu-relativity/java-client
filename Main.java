@@ -2,6 +2,7 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		System.out.println("TEST");
+		RelativityClient client = new RelativityClient();
+		client.get("https://www.example.com", 5000);
 	}
 }
