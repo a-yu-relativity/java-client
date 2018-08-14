@@ -53,9 +53,39 @@ public class RelativityClient
     }
 
 
+    private String getFullUrl(String url)
+    {
+        // check to make sure there is a slash 
+        // separating the request URL and the path
+        // unless we are just feeding in the entire URL
+        if (!startsWithSlash(url) && !url.isEmpty() && !url.startsWith("http"))
+        {
+            url = "/" + url;
+        }
+
+        // concatenate with base URL if needed
+        String fullUrl = url;
+        if (this.doesUseBaseUrl())
+            fullUrl = this.instanceUrl + url;
+
+        return fullUrl;
+    } 
+
+    /*
+     * Overridable for logging
+     */
     public void log(String message)
     {
         System.out.println(message);
+    }
+
+
+    /*
+     * Does this client use a base URL? 
+     */
+    public boolean doesUseBaseUrl()
+    {
+        return (this.instanceUrl == null || this.instanceUrl.equals(""));
     }
 
 
@@ -66,12 +96,8 @@ public class RelativityClient
     {
         String retVal = "";
 
-        if (!startsWithSlash(url) && !url.isEmpty() && !url.startsWith("http"))
-        {
-            url = "/" + url;
-        }
-        URL requestUrl;
-        String fullUrl = this.instanceUrl + url;
+        String fullUrl = this.getFullUrl(url);
+        URL requestUrl = null;
         try
         {
             requestUrl = new URL(fullUrl);
@@ -92,8 +118,7 @@ public class RelativityClient
         catch (ProtocolException pe)
         {
             log("Failed to set request method as GET");
-        }
-        
+        }       
         catch (IOException ioe)
         {
             log("Error opening connection");
