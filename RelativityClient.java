@@ -59,7 +59,7 @@ public class RelativityClient
      */
     private boolean doesUseBaseUrl()
     {
-        return (this.instanceUrl == null || this.instanceUrl.equals(""));
+        return !(this.instanceUrl == null || this.instanceUrl.equals(""));
     }
 
 
@@ -76,7 +76,10 @@ public class RelativityClient
         // concatenate with base URL if needed
         String fullUrl = url;
         if (this.doesUseBaseUrl())
+        {
+            log("foo");
             fullUrl = this.instanceUrl + url;
+        }
 
         return fullUrl;
     } 
@@ -101,6 +104,7 @@ public class RelativityClient
 
         // encode username and password for Basic auth
         String toEncode = String.format("%s:%s", this.username, this.password);
+        log(toEncode);
         byte[] b64Encoded = Base64.getEncoder().encode(toEncode.getBytes());
         String authHeader = "Basic " + new String(b64Encoded);
 

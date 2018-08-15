@@ -17,5 +17,7 @@ public class Main
         String password = args[2];
 
         RelativityClient relClient = new RelativityClient(url, username, password);
+        int workspaceId = 6578147;
+        Samples.basicQuery(relClient, workspaceId);
     }
 }
