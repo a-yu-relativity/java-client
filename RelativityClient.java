@@ -173,7 +173,7 @@ public class RelativityClient
      * all methods
      * @param requestUrl the resource location
      * @param httpMethod which HTTP method we are using
-                         (GET, POST, PUT, etc.)
+     *                   (GET, POST, PUT, etc.)
      * @param timeout timeout in milliseconds
      * @return the resulting connection
      */
@@ -253,7 +253,7 @@ public class RelativityClient
      * HTTP GET method
      * @param url the path of the resource we want to GET
      * @param timeout timeout in milliseconds for both
-                      connecting and reading
+     *                connecting and reading
      */
     public String get(String url, int timeout)
     {
