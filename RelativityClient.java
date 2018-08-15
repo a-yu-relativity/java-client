@@ -288,6 +288,7 @@ public class RelativityClient
         catch (IOException ioe)
         {
             log("Request failed.");
+            log(ioe.getMessage());
             return retVal;
         }
         
