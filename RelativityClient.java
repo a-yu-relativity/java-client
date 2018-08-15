@@ -80,6 +80,19 @@ public class RelativityClient
         return fullUrl;
     } 
 
+
+    private void handleFailedRequest(HttpURLConnection conn)
+    {
+        if (conn == null)
+        {
+            log("Error: connection is null.");
+            return;
+        }
+
+        // print out error message
+    }
+
+
     /*
      * Overridable for logging
      */
@@ -88,6 +101,42 @@ public class RelativityClient
         System.out.println(message);
     }
 
+
+    // -------------------
+    // Getters and Setters
+    // -------------------
+
+    public String getUrl()
+    {
+        return this.instanceUrl;
+    }
+
+    public void setUrl(String newUrl)
+    {
+        this.instanceUrl = newUrl;
+    }
+
+
+    public String getUsername()
+    {
+        return this.username;
+    }
+
+    public void setUsername(String newUsername)
+    {
+        this.username = newUsername;
+    }
+
+
+    public void setPassword(String newPassword)
+    {
+        this.password = newPassword;
+    }
+
+
+    // ------------
+    // HTTP methods
+    // ------------
 
     /*
      * HTTP GET
@@ -117,7 +166,7 @@ public class RelativityClient
         }
         catch (ProtocolException pe)
         {
-            log("Failed to set request method as GET");
+            log("Failed to set request method");
             log(pe.getMessage());
             return retVal;
         }       
@@ -133,7 +182,11 @@ public class RelativityClient
         try
         {
             if (conn == null)
+            {
+                log("Error: connection is null.");
                 return retVal;
+            }
+                
             statusCode = conn.getResponseCode();
         }
         catch (IOException ioe)
@@ -142,7 +195,7 @@ public class RelativityClient
             return retVal;
         }
         
-        if (statusCode == 200)
+        if (statusCode == HttpURLConnection.HTTP_OK)
         {
             BufferedReader in;
             try
@@ -190,6 +243,16 @@ public class RelativityClient
             log(content.toString());
             retVal = content.toString();
         }
+
+        else
+        {
+            // this means we did not receive a 200
+
+        }
+
         return retVal;
     }
+
+
+    // public String post()
 }
