@@ -53,6 +53,15 @@ public class RelativityClient
     }
 
 
+    /*
+     * Does this client use a base URL? 
+     */
+    private boolean doesUseBaseUrl()
+    {
+        return (this.instanceUrl == null || this.instanceUrl.equals(""));
+    }
+
+
     private String getFullUrl(String url)
     {
         // check to make sure there is a slash 
@@ -77,15 +86,6 @@ public class RelativityClient
     public void log(String message)
     {
         System.out.println(message);
-    }
-
-
-    /*
-     * Does this client use a base URL? 
-     */
-    public boolean doesUseBaseUrl()
-    {
-        return (this.instanceUrl == null || this.instanceUrl.equals(""));
     }
 
 
@@ -118,10 +118,13 @@ public class RelativityClient
         catch (ProtocolException pe)
         {
             log("Failed to set request method as GET");
+            log(pe.getMessage());
+            return retVal;
         }       
         catch (IOException ioe)
         {
             log("Error opening connection");
+            log(ioe.getMessage());
             return retVal;
         }
 
@@ -150,6 +153,7 @@ public class RelativityClient
             catch (IOException ioe)
             {
                 log("Error creating Buffered Reader");
+                log(ioe.getMessage());
                 return retVal;
             }
 
@@ -168,6 +172,7 @@ public class RelativityClient
             catch (IOException ioe)
             {
                 log("Failed to read line");
+                log(ioe.getMessage());
                 return retVal;
             }
             
@@ -178,6 +183,7 @@ public class RelativityClient
             catch (IOException ioe)
             {
                 log("Failed to close stream");
+                log(ioe.getMessage());
                 return retVal;
             }
 
