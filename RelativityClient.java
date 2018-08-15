@@ -54,7 +54,7 @@ public class RelativityClient
     }
 
 
-    /*
+    /**
      * Does this client use a base URL? 
      */
     private boolean doesUseBaseUrl()
@@ -110,6 +110,11 @@ public class RelativityClient
     }
 
 
+    /**
+     * Prints out and returns the response content
+     * @param conn The connection object that has already sent the request
+     * @return the response content
+     */
     private String getResponseContent(HttpURLConnection conn)
     {
         String retVal = "";
@@ -162,8 +167,45 @@ public class RelativityClient
         return retVal;
     }
 
-    /*
+
+    /**
+     * Perform the inital setup for a URL common to
+     * all methods
+     * @param requestUrl the resource location
+     * @param httpMethod which HTTP method we are using
+                         (GET, POST, PUT, etc.)
+     * @param timeout timeout in milliseconds
+     * @return the resulting connection
+     */
+    private HttpURLConnection getInitConnection(
+        URL requestUrl, String httpMethod, int timeout)
+    {
+        HttpURLConnection conn = null;
+        try
+        {
+            conn = (HttpURLConnection) requestUrl.openConnection();
+            conn.setRequestMethod(httpMethod);
+            conn.setConnectTimeout(timeout);
+            conn.setReadTimeout(timeout);
+            this.setRequestHeaders(conn);
+        }
+        catch (ProtocolException pe)
+        {
+            log("Failed to set request method");
+            log(pe.getMessage());
+        }       
+        catch (IOException ioe)
+        {
+            log("Error opening connection");
+            log(ioe.getMessage());
+        }
+        return conn; 
+    }
+
+
+    /**
      * Overridable for logging
+     * @param message the message to print out
      */
     public void log(String message)
     {
@@ -207,14 +249,20 @@ public class RelativityClient
     // HTTP methods
     // ------------
 
-    /*
-     * HTTP GET
+    /**
+     * HTTP GET method
+     * @param url the path of the resource we want to GET
+     * @param timeout timeout in milliseconds for both
+                      connecting and reading
      */
     public String get(String url, int timeout)
     {
         String retVal = "";
 
         String fullUrl = this.getFullUrl(url);
+
+        // TODO: add any query string params
+
         URL requestUrl = null;
         try
         {
@@ -225,38 +273,16 @@ public class RelativityClient
             log("URL is not of a proper format: " + fullUrl);
             return retVal;
         }
-        HttpURLConnection conn = null;
-        try
+        HttpURLConnection conn = getInitConnection(requestUrl, "GET", timeout);
+        if (conn == null)
         {
-            conn = (HttpURLConnection) requestUrl.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(timeout);
-            conn.setReadTimeout(timeout);
-            setRequestHeaders(conn);
-        }
-        catch (ProtocolException pe)
-        {
-            log("Failed to set request method");
-            log(pe.getMessage());
-            return retVal;
-        }       
-        catch (IOException ioe)
-        {
-            log("Error opening connection");
-            log(ioe.getMessage());
+            log("Error: connection is null.");
             return retVal;
         }
-
+            
         int statusCode = 0;
-
         try
         {
-            if (conn == null)
-            {
-                log("Error: connection is null.");
-                return retVal;
-            }
-                
             statusCode = conn.getResponseCode();
         }
         catch (IOException ioe)
@@ -280,5 +306,8 @@ public class RelativityClient
     }
 
 
-    // public String post()
+    // public String post(String url, String payload, int timeout)
+    // {
+
+    // }
 }
