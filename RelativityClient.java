@@ -77,7 +77,6 @@ public class RelativityClient
         String fullUrl = url;
         if (this.doesUseBaseUrl())
         {
-            log("foo");
             fullUrl = this.instanceUrl + url;
         }
 
@@ -104,13 +103,64 @@ public class RelativityClient
 
         // encode username and password for Basic auth
         String toEncode = String.format("%s:%s", this.username, this.password);
-        log(toEncode);
         byte[] b64Encoded = Base64.getEncoder().encode(toEncode.getBytes());
         String authHeader = "Basic " + new String(b64Encoded);
 
         conn.setRequestProperty("Authorization", authHeader);
     }
 
+
+    private String getResponseContent(HttpURLConnection conn)
+    {
+        String retVal = "";
+
+        BufferedReader in;
+        try
+        {
+            in = new BufferedReader(
+                new InputStreamReader(conn.getInputStream()));
+        }
+        catch (IOException ioe)
+        {
+            log("Error creating Buffered Reader");
+            log(ioe.getMessage());
+            return retVal;
+        }
+
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        try
+        {
+            if (in == null)
+                return retVal;
+            while ((inputLine = in.readLine()) != null) 
+            {
+                content.append(inputLine);
+            }
+        }
+
+        catch (IOException ioe)
+        {
+            log("Failed to read line");
+            log(ioe.getMessage());
+            return retVal;
+        }
+        
+        try
+        {
+            in.close();
+        }
+        catch (IOException ioe)
+        {
+            log("Failed to close stream");
+            log(ioe.getMessage());
+            return retVal;
+        }
+
+        log(content.toString());
+        retVal = content.toString();
+        return retVal;
+    }
 
     /*
      * Overridable for logging
@@ -217,51 +267,7 @@ public class RelativityClient
         
         if (statusCode == HttpURLConnection.HTTP_OK)
         {
-            BufferedReader in;
-            try
-            {
-                in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
-            }
-            catch (IOException ioe)
-            {
-                log("Error creating Buffered Reader");
-                log(ioe.getMessage());
-                return retVal;
-            }
-
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            try
-            {
-                if (in == null)
-                    return retVal;
-                while ((inputLine = in.readLine()) != null) 
-                {
-                    content.append(inputLine);
-                }
-            }
-
-            catch (IOException ioe)
-            {
-                log("Failed to read line");
-                log(ioe.getMessage());
-                return retVal;
-            }
-            
-            try
-            {
-                in.close();
-            }
-            catch (IOException ioe)
-            {
-                log("Failed to close stream");
-                log(ioe.getMessage());
-                return retVal;
-            }
-
-            log(content.toString());
-            retVal = content.toString();
+            retVal = this.getResponseContent(conn);
         }
 
         else
