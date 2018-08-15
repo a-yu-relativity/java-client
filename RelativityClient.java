@@ -263,7 +263,7 @@ public class RelativityClient
         else
         {
             // this means we did not receive a 200
-
+            log("Error: status code " + Integer.toString(statusCode));
         }
 
         return retVal;
