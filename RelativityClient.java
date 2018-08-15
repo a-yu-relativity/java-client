@@ -4,6 +4,7 @@ import java.net.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.Base64;
 
 public class RelativityClient
 {
@@ -93,6 +94,20 @@ public class RelativityClient
     }
 
 
+    private void setRequestHeaders(HttpURLConnection conn)
+    {
+        conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+        conn.setRequestProperty("X-CSRF-Header", "-");
+
+        // encode username and password for Basic auth
+        String toEncode = String.format("%s:%s", this.username, this.password);
+        byte[] b64Encoded = Base64.getEncoder().encode(toEncode.getBytes());
+        String authHeader = "Basic " + new String(b64Encoded);
+
+        conn.setRequestProperty("Authorization", authHeader);
+    }
+
+
     /*
      * Overridable for logging
      */
@@ -163,6 +178,7 @@ public class RelativityClient
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(timeout);
             conn.setReadTimeout(timeout);
+            setRequestHeaders(conn);
         }
         catch (ProtocolException pe)
         {
