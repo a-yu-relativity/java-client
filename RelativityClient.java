@@ -4,6 +4,8 @@ import java.net.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
 public class RelativityClient
@@ -307,8 +309,74 @@ public class RelativityClient
     }
 
 
-    // public String post(String url, String payload, int timeout)
-    // {
+    public String post(String url, String payload, int timeout)
+    {
+        String retVal = "";     
+        String fullUrl = this.getFullUrl(url);
 
-    // }
+        // TODO: add any query string params
+
+        URL requestUrl = null;
+        try
+        {
+            requestUrl = new URL(fullUrl);
+        }
+        catch (MalformedURLException e)
+        {
+            log("URL is not of a proper format: " + fullUrl);
+            return retVal;
+        }
+        HttpURLConnection conn = getInitConnection(requestUrl, "POST", timeout);
+        if (conn == null)
+        {
+            log("Error: connection is null.");
+            return retVal;
+        }
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+
+        try
+        {
+            OutputStreamWriter writer = 
+                new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+            writer.write(payload);
+            writer.close();
+        }
+        catch (UnsupportedEncodingException uee)
+        {
+            log(uee.getMessage());
+            return retVal;
+        }
+        catch (IOException ioe)
+        {
+            log(ioe.getMessage());
+            return retVal;
+        }
+        
+            
+        int statusCode = 0;
+        try
+        {
+            statusCode = conn.getResponseCode();
+        }
+        catch (IOException ioe)
+        {
+            log("Request failed.");
+            log(ioe.getMessage());
+            return retVal;
+        }
+        
+        if (statusCode == HttpURLConnection.HTTP_OK)
+        {
+            retVal = this.getResponseContent(conn);
+        }
+
+        else
+        {
+            // this means we did not receive a 200
+            log("Error: status code " + Integer.toString(statusCode));
+        }
+
+        return retVal;
+    }
 }
