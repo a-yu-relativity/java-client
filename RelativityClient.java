@@ -195,11 +195,13 @@ public class RelativityClient
         {
             log("Failed to set request method");
             log(pe.getMessage());
+            return null;
         }       
         catch (IOException ioe)
         {
             log("Error opening connection");
             log(ioe.getMessage());
+            return null;
         }
         return conn; 
     }
