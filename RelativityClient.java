@@ -215,7 +215,7 @@ public class RelativityClient
     {
         String retVal = "";
 
-        if (statusCode == HttpURLConnection.HTTP_OK)
+        if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED)
         {
             retVal = this.getResponseContent(conn);
         }

@@ -28,6 +28,8 @@ public class Main
         Samples.queryAllFieldsOnDoc(relClient, workspaceId);
         System.out.println();
 
-        
+        System.out.println("CREATING FIXED-LENGTH TEXT FIELD");
+        Samples.createField(relClient, workspaceId);
+        System.out.println();
     }
 }

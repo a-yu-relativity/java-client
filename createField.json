@@ -3,9 +3,23 @@
 	"Parent Artifact": {
 		"Artifact ID": %d
 	},
-	"Name": "My Field",
+	"Name": "My Fixed-Length Text Field",
 	"Object Type": {
 		"Descriptor Artifact Type ID": 10
 	},
-	"Field Type ID": 0
+	"Field Type ID": 0,
+	"Is Required": false,
+	"Unicode": true,
+	"Open To Associations": false,
+	"Linked": false,
+	"Allow Sort/Tally": false,
+	"Width": "",
+	"Wrapping": false,
+	"Allow Group By": false,
+	"Allow Pivot": false,
+	"Allow HTML": false,
+	"Is Relational": false,
+	"Include in Text Index": false,
+	"Length": 255,
+	"Ignore Warnings": true
 }

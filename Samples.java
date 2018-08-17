@@ -3,6 +3,25 @@ import java.nio.file.*;
 
 public class Samples
 {
+    private static String getJsonFromFile(String jsonFile)
+    {
+        String json = "";
+        Path jsonPath = Paths.get(jsonFile);
+        try
+        {
+            json = new String(Files.readAllBytes(jsonPath));
+            // System.out.println(json);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error occured reading json:");
+            System.out.println(e.getMessage());
+            return "";
+        }
+        return json;
+    }
+
+
     /**
      * Basic GET on documents in a workspace
      */    
@@ -28,20 +47,7 @@ public class Samples
             workspaceId);
         // in practice, one would use a JSON library for Java,
         // but we shall read the JSON from a file
-        String json = "";
-        String fileName = payloadFile;
-        Path jsonPath = Paths.get(fileName);
-        try
-        {
-            json = new String(Files.readAllBytes(jsonPath));
-            // System.out.println(json);
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error occured reading json:");
-            System.out.println(e.getMessage());
-            return;
-        }
+        String json = getJsonFromFile(payloadFile);
 
         // query with object manager
         int timeout= 5000;
@@ -77,6 +83,13 @@ public class Samples
     public static void createField(RelativityClient relClient, int workspaceId)
     {
         String url = String.format("/Relativity.REST/Workspace/%d/Field", workspaceId);
+        String jsonFile = "createField.json";
+        String json = getJsonFromFile(jsonFile);
 
+        // insert Workspace ID into payload
+        String formattedJson = String.format(json, workspaceId);
+        System.out.println(formattedJson);
+        int timeout = 10000;
+        relClient.post(url, formattedJson, timeout);
     }
 }
