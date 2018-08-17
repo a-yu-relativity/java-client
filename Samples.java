@@ -12,21 +12,23 @@ public class Samples
     }
 
 
+
     /**
-     * Retrieves the first 25 documents from a workspace
+     *
      * @param relClient the Relativity HTTP client
      * @param workspaceId the artifact ID of the workspace we want to query
+     * @param payloadFile the path to the text file containing the JSON
      */
-    public static void testObjMgr(RelativityClient relClient, int workspaceId)
+    public static void genericObjMgrQuery(
+        RelativityClient relClient, int workspaceId, String payloadFile)
     {
-        
         String url = String.format(
             "/Relativity.REST/api/Relativity.Objects/workspace/%d/object/query", 
             workspaceId);
         // in practice, one would use a JSON library for Java,
         // but we shall read the JSON from a file
         String json = "";
-        String fileName = "payload.json";
+        String fileName = payloadFile;
         Path jsonPath = Paths.get(fileName);
         try
         {
@@ -45,36 +47,15 @@ public class Samples
         relClient.post(url, json, timeout);
     }
 
-
     
     /**
      * Query for the unique identifier field (Control Number, Doc ID Beg, etc.)
      * on the Document object
+     * @param relClient the Relativity HTTP client
+     * @param workspaceId the artifact ID of the workspace we want to query
      */
     public static void queryIdentifier(RelativityClient relClient, int workspaceId)
     {
-        String url = String.format(
-            "/Relativity.REST/api/Relativity.Objects/workspace/%d/object/query", 
-            workspaceId);
-        // in practice, one would use a JSON library for Java,
-        // but we shall read the JSON from a file
-        String json = "";
-        String fileName = "queryIdentifier.json";
-        Path jsonPath = Paths.get(fileName);
-        try
-        {
-            json = new String(Files.readAllBytes(jsonPath));
-            // System.out.println(json);
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error occured reading json:");
-            System.out.println(e.getMessage());
-            return;
-        }
-
-        // query with object manager
-        int timeout= 5000;
-        relClient.post(url, json, timeout);
+        genericObjMgrQuery(relClient, workspaceId, "queryIdentifier.json");
     }
 }
