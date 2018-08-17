@@ -1,0 +1,19 @@
+{
+    "request": {
+        "objectType": {
+            "artifactTypeID": 14
+        },
+        "fields":[
+            {
+                "Name": "Name",
+                "Guids": [],
+                "ArtifactID": 0
+            }
+        ],
+        "condition": "(('Is Identifier' == true) AND ('Object Type Artifact Type ID' == 10))",
+        "includeIdWindow": true
+    },
+
+    "start": 1,
+    "length": 25
+}

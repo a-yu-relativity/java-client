@@ -47,4 +47,34 @@ public class Samples
 
 
     
+    /**
+     * Query for the unique identifier field (Control Number, Doc ID Beg, etc.)
+     * on the Document object
+     */
+    public static void queryIdentifier(RelativityClient relClient, int workspaceId)
+    {
+        String url = String.format(
+            "/Relativity.REST/api/Relativity.Objects/workspace/%d/object/query", 
+            workspaceId);
+        // in practice, one would use a JSON library for Java,
+        // but we shall read the JSON from a file
+        String json = "";
+        String fileName = "queryIdentifier.json";
+        Path jsonPath = Paths.get(fileName);
+        try
+        {
+            json = new String(Files.readAllBytes(jsonPath));
+            // System.out.println(json);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error occured reading json:");
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        // query with object manager
+        int timeout= 5000;
+        relClient.post(url, json, timeout);
+    }
 }

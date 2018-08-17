@@ -19,7 +19,10 @@ public class Main
         int workspaceId = Integer.parseInt(args[3]);
 
         RelativityClient relClient = new RelativityClient(url, username, password);
-        Samples.testObjMgr(relClient, workspaceId);
-        
+
+        System.out.println("DOCUMENT IDENTIFIER:");
+        Samples.queryIdentifier(relClient, workspaceId);
+        System.out.println();
+
     }
 }
