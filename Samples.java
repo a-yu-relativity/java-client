@@ -34,5 +34,9 @@ public class Samples
             System.out.println(e.getMessage());
             return;
         }
+
+        // query with object manager
+        int timeout= 5000;
+        relClient.post(url, json, timeout);
     }
 }
