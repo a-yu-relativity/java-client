@@ -207,6 +207,38 @@ public class RelativityClient
     }
 
 
+
+    /**
+     * Handles the HTTP response
+     */
+    private String handleResponse(HttpURLConnection conn, int statusCode)
+    {
+        String retVal = "";
+
+        if (statusCode == HttpURLConnection.HTTP_OK)
+        {
+            retVal = this.getResponseContent(conn);
+        }
+
+        else
+        {
+            // this means we did not receive a 200
+            log("Error: status code " + Integer.toString(statusCode));
+            try
+            {
+                log(conn.getResponseMessage());
+            }
+            catch (IOException ioe)
+            {
+                log("Failed to get response message");
+                log(ioe.getMessage());
+            }
+        }
+
+        return retVal;
+    }
+
+
     /**
      * Overridable for logging
      * @param message the message to print out
@@ -296,16 +328,7 @@ public class RelativityClient
             return retVal;
         }
         
-        if (statusCode == HttpURLConnection.HTTP_OK)
-        {
-            retVal = this.getResponseContent(conn);
-        }
-
-        else
-        {
-            // this means we did not receive a 200
-            log("Error: status code " + Integer.toString(statusCode));
-        }
+        retVal = this.handleResponse(conn, statusCode);
 
         return retVal;
     }
@@ -368,16 +391,7 @@ public class RelativityClient
             return retVal;
         }
         
-        if (statusCode == HttpURLConnection.HTTP_OK)
-        {
-            retVal = this.getResponseContent(conn);
-        }
-
-        else
-        {
-            // this means we did not receive a 200
-            log("Error: status code " + Integer.toString(statusCode));
-        }
+        retVal = this.handleResponse(conn, statusCode);
 
         return retVal;
     }

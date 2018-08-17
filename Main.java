@@ -20,5 +20,6 @@ public class Main
 
         RelativityClient relClient = new RelativityClient(url, username, password);
         Samples.testObjMgr(relClient, workspaceId);
+        Samples.createDocument(relClient, workspaceId);
     }
 }

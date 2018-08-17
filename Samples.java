@@ -46,5 +46,31 @@ public class Samples
     }
 
 
-    
+    public static void createDocument(RelativityClient relClient, int workspaceId)
+    {
+        String url = String.format(
+            "/Relativity.REST/Workspace/%d/Document", workspaceId);
+
+        // in practice, one would use a JSON library for Java,
+        // but we shall read the JSON from a file
+        String json = "";
+        String fileName = "upload.json";
+        Path jsonPath = Paths.get(fileName);
+        try
+        {
+            String templateJson = new String(Files.readAllBytes(jsonPath));
+            json = String.format(templateJson, workspaceId);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error occured reading json:");
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        // query with object manager
+        int timeout= 5000;
+        relClient.post(url, json, timeout);
+
+    }
 }
