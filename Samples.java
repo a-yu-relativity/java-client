@@ -2,9 +2,9 @@ import java.nio.file.*;
 
 public class Samples
 {
-    /*
-     * Retrieves the first 25 documents from a workspace
-     */
+    /**
+     * Basic GET on documents in a workspace
+     */    
     public static void basicQuery(RelativityClient relClient, int workspaceId)
     {
         String url = String.format("/Relativity.REST/Workspace/%d/Document", workspaceId);
@@ -12,6 +12,11 @@ public class Samples
     }
 
 
+    /**
+     * Retrieves the first 25 documents from a workspace
+     * @param relClient the Relativity HTTP client
+     * @param workspaceId the artifact ID of the workspace we want to query
+     */
     public static void testObjMgr(RelativityClient relClient, int workspaceId)
     {
         
@@ -39,4 +44,7 @@ public class Samples
         int timeout= 5000;
         relClient.post(url, json, timeout);
     }
+
+
+    
 }
