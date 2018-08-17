@@ -19,6 +19,6 @@ public class Main
         int workspaceId = Integer.parseInt(args[3]);
 
         RelativityClient relClient = new RelativityClient(url, username, password);
-        Samples.basicQuery(relClient, workspaceId);
+        Samples.testObjMgr(relClient, workspaceId);
     }
 }

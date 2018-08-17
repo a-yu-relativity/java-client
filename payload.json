@@ -1,0 +1,13 @@
+{
+	"request": {
+		"objectType": {
+			"artifactTypeID":10
+		},
+		"fields": [],
+		"condition": "",
+		"sorts": [],
+		"includeIdWindow": true
+	},
+	"start":1,
+	"length":25
+}
