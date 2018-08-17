@@ -1,8 +1,0 @@
-{
-	"Artifact Type Name": "Document",
-	"Control Number": "TEST_001",
-	"Parent Artifact": {
-		"Artifact ID":{%d}
-	},
-	"Relativity Native File Location": "test_file.txt"
-}
