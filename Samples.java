@@ -1,5 +1,6 @@
 import java.nio.file.*;
 
+
 public class Samples
 {
     /**
@@ -57,5 +58,25 @@ public class Samples
     public static void queryIdentifier(RelativityClient relClient, int workspaceId)
     {
         genericObjMgrQuery(relClient, workspaceId, "queryIdentifier.json");
+    }
+
+
+    /*
+     * Query all fields on the document object
+     */
+    public static void queryAllFieldsOnDoc(RelativityClient relClient, int workspaceId)
+    {
+        String jsonFile = "queryAllDocFields.json";
+        genericObjMgrQuery(relClient, workspaceId, jsonFile);
+    }
+
+
+    /*
+     * Create a field on the Document object
+     */
+    public static void createField(RelativityClient relClient, int workspaceId)
+    {
+        String url = String.format("/Relativity.REST/Workspace/%d/Field", workspaceId);
+
     }
 }

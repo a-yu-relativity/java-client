@@ -24,5 +24,10 @@ public class Main
         Samples.queryIdentifier(relClient, workspaceId);
         System.out.println();
 
+        System.out.println("ALL DOCUMENT FIELDS:");
+        Samples.queryAllFieldsOnDoc(relClient, workspaceId);
+        System.out.println();
+
+        
     }
 }

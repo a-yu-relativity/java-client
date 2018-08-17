@@ -1,0 +1,11 @@
+{
+	"Artifact Type Name": "Field",
+	"Parent Artifact": {
+		"Artifact ID": %d
+	},
+	"Name": "My Field",
+	"Object Type": {
+		"Descriptor Artifact Type ID": 10
+	},
+	"Field Type ID": 0
+}
