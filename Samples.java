@@ -78,7 +78,10 @@ public class Samples
 
 
     /*
-     * Create a field on the Document object
+     * Create a field on the Document object.
+     * For documentation on the required fields for each field type,
+     * look at https://platform.relativity.com/9.6/Content/RSAPI/DTO_reference/Field/Field_properties.htm#Required
+     * Also, the mapping from Field Name to Field Type ID can be found in FieldType.java
      */
     public static void createField(RelativityClient relClient, int workspaceId)
     {
